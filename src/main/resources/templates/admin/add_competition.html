@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление соревнования</title>
+</head>
+<body>
+<a href="/admin">Главная</a>
+<h1>Добавление соревнования</h1>
+<form enctype="multipart/form-data" th:action="@{/admin/add_competition}" method="post" th:object="${competition}">
+    <div>
+        <span>Спортивный разряд: </span>
+        <select id="categoryId" name="categoryId">
+            <option th:each="item : ${categories}" th:value="${item.getId()}" th:text="${item.getName()}"></option>
+        </select>
+    </div>
+    <div>
+        <label>Дата и время: <input type="datetime-local" th:field="*{dateTime}"/> </label>
+    </div>
+    <div><input type="submit" value="Добавить"/></div>
+</form>
+</body>
+</html>

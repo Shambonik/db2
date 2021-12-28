@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Тренеры</title>
+</head>
+<body>
+<a href="/admin">Главная</a>
+<br>
+
+<div th:each = "trainer : ${list}" style="border: 2px dashed; padding: 10px;">
+    <span th:text="${trainer.getLastName()}"></span>
+    <span> </span>
+    <span th:text="${trainer.getFirstName()}"></span>
+    <span> </span>
+    <span th:text="${trainer.getMiddleName()}"></span>
+</div>
+<form th:method="get" th:action="@{/admin/add_trainer}">
+    <div><input type="submit" value="Добавить тренера"/></div>
+</form>
+</body>
+</html>

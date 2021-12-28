@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Жюри</title>
+</head>
+<body>
+<a href="/admin">Главная</a>
+<br>
+
+<div th:each = "jury : ${list}" style="border: 2px dashed; padding: 10px;">
+    <span th:text="${jury.getLastName()}"></span>
+    <span> </span>
+    <span th:text="${jury.getFirstName()}"></span>
+    <span> </span>
+    <span th:text="${jury.getMiddleName()}"></span>
+</div>
+<form th:method="get" th:action="@{/admin/add_jury}">
+    <div><input type="submit" value="Добавить члена жюри"/></div>
+</form>
+</body>
+</html>

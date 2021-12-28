@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование списка жюри</title>
+</head>
+<body>
+<a href="/admin">Главная</a>
+<br>
+<span th:text="${competition.getCategory().getName()}"></span>
+<div th:each = "jury : ${competition.getJuries()}" style="border: 2px dashed; padding: 10px;">
+    <span th:text="${jury.getLastName()}"></span>
+    <span> </span>
+    <span th:text="${jury.getFirstName()}"></span>
+    <span> </span>
+    <span th:text="${jury.getMiddleName()}"></span>
+    <form th:method="delete" th:action="@{/admin/competition/{id}/delete_jury/{juryId} (id = ${competition.getId()}, juryId = ${jury.getId()})}">
+        <div><input type="submit" value="Удалить"/></div>
+    </form>
+</div>
+<form th:method="put" th:action="@{/admin/competition/{id}/add_jury (id = ${competition.getId()})}" th:object="${add_competition_jury}">
+    <div>
+        <span>Жюри: </span>
+        <select id="juryId" name="juryId">
+            <option th:each="item : ${juries}"
+                    th:value="${item.getId()}"
+                    th:text="${item.getLastName() + ' ' + item.getFirstName() + ' ' + item.getMiddleName()}">
+            </option>
+        </select>
+    </div>
+    <div><input type="submit" value="Добавить члена жюри"/></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Соревнования</title>
+</head>
+<body>
+<a href="/admin">Главная</a>
+<br>
+<div th:each = "competition : ${list}" style="border: 2px dashed; padding: 10px;">
+    <span th:text="${competition.getCategory().getName()}"></span>
+    <br>
+    <span th:text="${competition.getDateTime()}"></span>
+    <br>
+    <span th:if="${!competition.getJuries().isEmpty()}">Жюри</span>
+    <div th:each = "jury : ${competition.getJuries()}" style="border: 2px dashed; padding: 10px;">
+        <span th:text="${jury.getLastName()}"></span>
+        <span> </span>
+        <span th:text="${jury.getFirstName()}"></span>
+        <span> </span>
+        <span th:text="${jury.getMiddleName()}"></span>
+    </div>
+    <form th:method="get" th:action="@{/admin/competition/{id}/edit_jury (id = ${competition.getId()})}">
+        <div><input type="submit" value="Редактировать список жюри"/></div>
+    </form>
+</div>
+<form th:method="get" th:action="@{/admin/add_competition}">
+    <div><input type="submit" value="Добавить соревнование"/></div>
+</form>
+</body>
+</html>
