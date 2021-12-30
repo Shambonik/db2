@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление спортсмена</title>
+</head>
+<body>
+<a href="/admin">Главная</a>
+<h1>Добавление спортсмена</h1>
+<form enctype="multipart/form-data" th:action="@{/admin/add_sportsman}" method="post" th:object="${sportsman}">
+    <div>
+        <label>Фамилия: <input type="text" th:field="*{firstName}"/> </label>
+    </div>
+    <div>
+        <label>Имя: <input type="text" th:field="*{lastName}"/> </label>
+    </div>
+    <div>
+        <label>Отчество: <input type="text" th:field="*{middleName}"/> </label>
+    </div>
+    <div>
+        <span>Тренер: </span>
+        <select id="trainerId" name="trainerId">
+            <option th:each="item : ${trainers}"
+                    th:value="${item.getId()}"
+                    th:text="${item.getLastName() + ' ' + item.getFirstName() + ' ' + item.getMiddleName()}">
+            </option>
+        </select>
+    </div>
+    <div>
+        <span>Спортивный разряд: </span>
+        <select id="categoryId" name="categoryId">
+            <option th:each="item : ${categories}" th:value="${item.getId()}" th:text="${item.getName()}"></option>
+        </select>
+    </div>
+    <div>
+        <span>Участвует в соревнованиях по разряду: </span>
+        <select id="competitionCategoryId" name="competitionCategoryId">
+            <option th:each="item : ${competitionCategories}" th:value="${item.getId()}" th:text="${item.getCategory().getName()}"></option>
+        </select>
+    </div>
+    <div><input type="submit" value="Добавить"/></div>
+</form>
+</body>
+</html>

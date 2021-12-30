@@ -16,6 +16,10 @@ public class TrainerService {
         return trainerRepo.findAll();
     }
 
+    public Trainer getById(Long id){
+        return trainerRepo.getById(id);
+    }
+
     public void addTrainer(Trainer trainer){
         trainerRepo.save(trainer);
     }

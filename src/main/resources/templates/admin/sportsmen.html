@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Спортсмены</title>
+</head>
+<body>
+<a href="/admin">Главная</a>
+<br>
+
+<div th:each = "sportsman : ${list}" style="border: 2px dashed; padding: 10px;">
+    <span th:text="${sportsman.getLastName()}"></span>
+    <span> </span>
+    <span th:text="${sportsman.getFirstName()}"></span>
+    <span> </span>
+    <span th:text="${sportsman.getMiddleName()}"></span>
+    <br>
+    <span>Тренер: </span>
+    <span th:text="${sportsman.getTrainer().getLastName()}"></span>
+    <span> </span>
+    <span th:text="${sportsman.getTrainer().getFirstName()}"></span>
+    <span> </span>
+    <span th:text="${sportsman.getTrainer().getMiddleName()}"></span>
+    <br>
+    <span>Спортивный разряд: </span>
+    <span th:text="${sportsman.getCategory().getName()}"></span>
+    <br>
+    <span>Участвует в соревнованиях по разряду: </span>
+    <span th:text="${sportsman.getCompetitionCategory().getCategory().getName()}"></span>
+    <br>
+    <span>Баллы: </span>
+    <span th:text="${sportsman.getPoints()}"></span>
+</div>
+<form th:method="get" th:action="@{/admin/add_sportsman}">
+    <div><input type="submit" value="Добавить спортсмена"/></div>
+</form>
+</body>
+</html>

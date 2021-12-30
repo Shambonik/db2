@@ -3,11 +3,9 @@ package com.example.db2.controllers;
 import com.example.db2.dto.AddCompetitionDto;
 import com.example.db2.dto.AddCompetitionJuryDto;
 import com.example.db2.dto.AddJuryDto;
+import com.example.db2.dto.AddSportsmanDto;
 import com.example.db2.entities.Trainer;
-import com.example.db2.services.CategoryService;
-import com.example.db2.services.CompetitionCategoryService;
-import com.example.db2.services.JuryService;
-import com.example.db2.services.TrainerService;
+import com.example.db2.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,64 +19,65 @@ public class AdminController {
     private final CompetitionCategoryService competitionCategoryService;
     private final CategoryService categoryService;
     private final JuryService juryService;
+    private final SportsmanService sportsmanService;
 
     @GetMapping("/trainers")
-    public String getTrainersPage(Model model){
+    public String getTrainersPage(Model model) {
         model.addAttribute("list", trainerService.findAll());
         return "admin/trainers";
     }
 
     @GetMapping("/add_trainer")
-    public String getAddTrainerPage(Model model){
+    public String getAddTrainerPage(Model model) {
         model.addAttribute("trainer", new Trainer());
         return "admin/add_trainer";
     }
 
     @PostMapping("/add_trainer")
-    public String addTrainer(Trainer trainer){
+    public String addTrainer(Trainer trainer) {
         trainerService.addTrainer(trainer);
         return "redirect:/admin/trainers";
     }
 
     @GetMapping("/competitions")
-    public String getCompetitionsPage(Model model){
+    public String getCompetitionsPage(Model model) {
         model.addAttribute("list", competitionCategoryService.findAll());
         return "admin/competitions";
     }
 
     @GetMapping("/add_competition")
-    public String getAddCompetitionPage(Model model){
+    public String getAddCompetitionPage(Model model) {
         model.addAttribute("competition", new AddCompetitionDto());
         model.addAttribute("categories", categoryService.findAll());
         return "admin/add_competition";
     }
 
     @PostMapping("/add_competition")
-    public String addCompetition(AddCompetitionDto dto){
+    public String addCompetition(AddCompetitionDto dto) {
         competitionCategoryService.addCompetitionCategory(dto);
         return "redirect:/admin/competitions";
     }
 
     @GetMapping("/juries")
-    public String getJuriesPage(Model model){
+    public String getJuriesPage(Model model) {
         model.addAttribute("list", juryService.findAll());
         return "admin/juries";
     }
 
     @GetMapping("/add_jury")
-    public String getAddJuryPage(Model model){
+    public String getAddJuryPage(Model model) {
         model.addAttribute("jury", new AddJuryDto());
         return "admin/add_jury";
     }
 
     @PostMapping("/add_jury")
-    public String addJury(AddJuryDto dto){
+    public String addJury(AddJuryDto dto) {
         juryService.addJury(dto);
         return "redirect:/admin/juries";
     }
 
     @GetMapping("/competition/{id}/edit_jury")
-    public String getCompetitionJuriesPage(@PathVariable("id") long id, Model model){
+    public String getCompetitionJuriesPage(@PathVariable("id") long id, Model model) {
         model.addAttribute("competition", competitionCategoryService.getById(id));
         model.addAttribute("add_competition_jury", new AddCompetitionJuryDto());
         model.addAttribute("juries", juryService.findAll());
@@ -86,15 +85,35 @@ public class AdminController {
     }
 
     @PutMapping("/competition/{id}/add_jury")
-    public String addCompetitionJury(@PathVariable("id") long id, AddCompetitionJuryDto dto){
+    public String addCompetitionJury(@PathVariable("id") long id, AddCompetitionJuryDto dto) {
         competitionCategoryService.addJury(id, dto);
-        return "redirect:/admin/competition/"+id+"/edit_jury";
+        return "redirect:/admin/competition/" + id + "/edit_jury";
     }
 
-
     @DeleteMapping("/competition/{id}/delete_jury/{juryId}")
-    public String deleteCompetitionJury(@PathVariable("id") long competitionId, @PathVariable("juryId") long juryId){
+    public String deleteCompetitionJury(@PathVariable("id") long competitionId, @PathVariable("juryId") long juryId) {
         competitionCategoryService.deleteJury(competitionId, juryId);
-        return "redirect:/admin/competition/"+competitionId+"/edit_jury";
+        return "redirect:/admin/competition/" + competitionId + "/edit_jury";
+    }
+
+    @GetMapping("/sportsmen")
+    public String getSportsmenPage(Model model) {
+        model.addAttribute("list", sportsmanService.findAll());
+        return "admin/sportsmen";
+    }
+
+    @GetMapping("/add_sportsman")
+    public String getAddSportsmanPage(Model model) {
+        model.addAttribute("sportsman", new AddSportsmanDto());
+        model.addAttribute("trainers", trainerService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("competitionCategories", competitionCategoryService.findAll());
+        return "admin/add_sportsman";
+    }
+
+    @PostMapping("/add_sportsman")
+    public String addSportsman(AddSportsmanDto dto){
+        sportsmanService.addSportsman(dto);
+        return "redirect:/admin/sportsmen/";
     }
 }

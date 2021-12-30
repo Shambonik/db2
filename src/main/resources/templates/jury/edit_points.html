@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование баллы</title>
+</head>
+<body>
+<a href="/jury">Главная</a>
+<br>
+<span th:text="${competition.getCategory().getName()}"></span>
+<form th:method="put" th:action="@{/jury/edit_points}" th:object="${sportsmen}">
+    <div th:each = "sportsman, iteration : ${sportsmen.getList()}" style="border: 2px dashed; padding: 10px;">
+        <span th:text="${sportsman.getLastName()}"></span>
+        <span> </span>
+        <span th:text="${sportsman.getFirstName()}"></span>
+        <span> </span>
+        <span th:text="${sportsman.getMiddleName()}"></span>
+        <input type="text" th:field="*{list[__${iteration.index}__].id}" style="visibility : hidden"/>
+        <div>
+            <label>Баллы: <input type="text" th:field="*{list[__${iteration.index}__].points}"/> </label>
+        </div>
+    </div>
+    <div><input type="submit" value="Обновить баллы"/></div>
+</form>
+</body>
+</html>
